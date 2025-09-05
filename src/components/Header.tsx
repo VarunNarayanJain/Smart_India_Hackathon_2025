@@ -28,9 +28,11 @@ export default function Header() {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 bg-gradient-to-br from-green-600 to-green-700 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-              <Mountain className="w-6 h-6 text-white" />
-            </div>
+            <img
+              src="/Logoo.png"
+              alt="Jharkhand Tourism logo"
+              className="w-15 h-12 object-contain group-hover:scale-105 transition-transform duration-200"
+            />
             <div className="hidden sm:block">
               <h1 className="text-xl font-bold text-gray-900">Jharkhand Tourism</h1>
               <p className="text-xs text-green-600">Eco & Cultural Portal</p>

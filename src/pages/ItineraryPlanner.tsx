@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Calendar, MapPin, Clock, Users, DollarSign, Download, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Calendar, MapPin, Clock, Users, DollarSign, Download, Sparkles, Plus, X } from 'lucide-react';
+import { useItinerary } from '../context/ItineraryContext';
 
 export default function ItineraryPlanner() {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -9,18 +10,71 @@ export default function ItineraryPlanner() {
     dates: '',
     duration: '',
     interests: [] as string[],
-    groupType: ''
+    groupType: '',
+    desiredPlaces: [] as string[]
   });
+  const [newPlace, setNewPlace] = useState('');
+  const { desiredPlaces, addDesiredPlace, removeDesiredPlace } = useItinerary();
+
+  // Debug logging
+  console.log('ItineraryPlanner: Component rendered');
+  console.log('ItineraryPlanner: Current desiredPlaces from context:', desiredPlaces);
+
+  // Sync local form data with global context
+  useEffect(() => {
+    console.log('ItineraryPlanner: Syncing form data with context');
+    setFormData(prev => ({
+      ...prev,
+      desiredPlaces: desiredPlaces
+    }));
+  }, [desiredPlaces]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsGenerating(true);
+    
+    // Log the form data including desired places for debugging
+    console.log('Form data submitted:', formData);
+    
+    // Example of how this data would be sent to LLM:
+    // const prompt = `
+    //   Create a personalized itinerary for:
+    //   - Starting from: ${formData.startCity}
+    //   - Dates: ${formData.dates}
+    //   - Duration: ${formData.duration} days
+    //   - Interests: ${formData.interests.join(', ')}
+    //   - Group type: ${formData.groupType}
+    //   - Desired places to include: ${formData.desiredPlaces.length > 0 ? formData.desiredPlaces.join(', ') : 'No specific places mentioned'}
+    //   
+    //   ${formData.desiredPlaces.length > 0 ? 
+    //     'Please prioritize including the mentioned places in the itinerary while ensuring a logical route and good time management.' : 
+    //     'Please suggest popular and interesting places based on the interests and group type.'
+    //   }
+    // `;
     
     // Simulate AI generation
     setTimeout(() => {
       setIsGenerating(false);
       setShowResults(true);
     }, 3000);
+  };
+
+  const addPlace = () => {
+    if (newPlace.trim() && !desiredPlaces.includes(newPlace.trim())) {
+      addDesiredPlace(newPlace.trim());
+      setNewPlace('');
+    }
+  };
+
+  const removePlace = (placeToRemove: string) => {
+    removeDesiredPlace(placeToRemove);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      addPlace();
+    }
   };
 
   const sampleItinerary = [
@@ -87,7 +141,7 @@ export default function ItineraryPlanner() {
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Starting City
                 </label>
                 <input
@@ -95,7 +149,7 @@ export default function ItineraryPlanner() {
                   value={formData.startCity}
                   onChange={(e) => setFormData({...formData, startCity: e.target.value})}
                   placeholder="e.g., Ranchi, Jamshedpur"
-                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-3 border  border-gray-300 text-gray-900 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
                 />
               </div>
 
@@ -108,7 +162,7 @@ export default function ItineraryPlanner() {
                     type="date"
                     value={formData.dates}
                     onChange={(e) => setFormData({...formData, dates: e.target.value})}
-                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                    className="w-full text-gray-900 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
                   />
                 </div>
                 <div>
@@ -118,7 +172,7 @@ export default function ItineraryPlanner() {
                   <select
                     value={formData.duration}
                     onChange={(e) => setFormData({...formData, duration: e.target.value})}
-                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                    className="w-full text-gray-900 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
                   >
                     <option value="">Select duration</option>
                     <option value="1">1 Day</option>
@@ -155,13 +209,58 @@ export default function ItineraryPlanner() {
               </div>
 
               <div>
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Desired Places to Visit <span className="text-gray-500 text-xs">(Optional)</span>
+                </label>
+                <p className="text-sm text-gray-600 mb-3">
+                  Know specific places you want to visit? Add them here for a more personalized itinerary.
+                </p>
+                <div className="text-xs text-gray-500 mb-3">
+                  💡 Popular places in Jharkhand: Hundru Falls, Netarhat, Betla National Park, Ranchi Zoo, Dassam Falls, Patratu Valley
+                </div>
+                <div className="flex items-center space-x-2 mb-3">
+                  <input
+                    type="text"
+                    value={newPlace}
+                    onChange={(e) => setNewPlace(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Add a desired place (e.g., Hundru Falls, Ranchi Zoo)"
+                    className="flex-grow text-gray-900 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                  />
+                  <button
+                    type="button"
+                    onClick={addPlace}
+                    className="p-3 bg-green-600 hover:bg-green-700 text-white rounded-xl transition-colors duration-200"
+                  >
+                    <Plus className="w-5 h-5" />
+                  </button>
+                </div>
+                {desiredPlaces.length > 0 && (
+                  <div className="flex flex-wrap items-center gap-2 p-3 bg-gray-50 rounded-xl border border-gray-200">
+                    {desiredPlaces.map((place, index) => (
+                      <span key={index} className="flex items-center bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded-full">
+                        {place}
+                        <button
+                          type="button"
+                          onClick={() => removePlace(place)}
+                          className="ml-1 text-green-800 hover:text-green-900 focus:outline-none"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Group Type
                 </label>
                 <select
                   value={formData.groupType}
                   onChange={(e) => setFormData({...formData, groupType: e.target.value})}
-                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-3 border text-gray-900 border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
                 >
                   <option value="">Select group type</option>
                   <option value="solo">Solo Travel</option>

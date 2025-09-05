@@ -116,7 +116,7 @@ export default function Chatbot() {
                   onChange={(e) => setNewMessage(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                   placeholder="Ask about Jharkhand tourism..."
-                  className="flex-1 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                  className="flex-1 p-3 border text-gray-900 border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
                 />
                 <button className="p-3 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors duration-200">
                   <Mic className="w-5 h-5 text-gray-600" />
@@ -143,7 +143,7 @@ export default function Chatbot() {
                   <button
                     key={index}
                     onClick={() => handleFAQClick(item)}
-                    className="w-full text-left p-3 bg-gray-50 hover:bg-green-50 hover:text-green-700 rounded-xl text-sm font-medium transition-all duration-200 hover:scale-105"
+                    className="w-full text-left p-3 bg-gray-50 hover:bg-green-50 hover:text-green-700 text-gray-900 rounded-xl text-sm font-medium transition-all duration-200 hover:scale-105"
                   >
                     {item}
                   </button>

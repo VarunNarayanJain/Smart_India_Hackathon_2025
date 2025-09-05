@@ -4,14 +4,17 @@ import { ArrowRight } from 'lucide-react';
 
 export default function HeroSection() {
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: 'url("https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")'
-        }}
-      >
+    <section className="dark:bg-neutral-800 relative h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Video */}
+      <div className="dark:bg-neutral-800 absolute inset-0">
+        <video
+          className="w-full h-full object-cover"
+          src="/Landing.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
         <div className="absolute inset-0 bg-black/40"></div>
       </div>
 
@@ -38,12 +41,6 @@ export default function HeroSection() {
         </Link>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-        <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-white/70 rounded-full animate-bounce mt-2"></div>
-        </div>
-      </div>
     </section>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { ChevronLeft, ChevronRight, MapPin, Clock } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function FeaturedDestinations() {
   const scrollContainer = useRef<HTMLDivElement>(null);
@@ -91,8 +92,9 @@ export default function FeaturedDestinations() {
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {destinations.map((destination) => (
-              <div
+              <Link
                 key={destination.id}
+                to={`/destination/${destination.id}`}
                 className="flex-none w-80 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 overflow-hidden group cursor-pointer"
               >
                 <div className="relative h-48 overflow-hidden">
@@ -124,11 +126,11 @@ export default function FeaturedDestinations() {
                     </div>
                   </div>
                   
-                  <button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl font-medium transition-colors duration-200">
+                  <div className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl font-medium transition-colors duration-200 text-center">
                     Explore More
-                  </button>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

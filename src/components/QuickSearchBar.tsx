@@ -30,7 +30,7 @@ export default function QuickSearchBar() {
               <select 
                 value={tripType}
                 onChange={(e) => setTripType(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                className="w-full p-3 rounded-xl bg-neutral-900 text-neutral-100 border border-neutral-700 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
               >
                 <option value="">Select type</option>
                 <option value="adventure">Adventure</option>
@@ -49,7 +49,7 @@ export default function QuickSearchBar() {
               <select 
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                className="w-full p-3 rounded-xl bg-neutral-900 text-neutral-100 border border-neutral-700 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
               >
                 <option value="">Select days</option>
                 <option value="1">1 Day</option>
@@ -68,7 +68,7 @@ export default function QuickSearchBar() {
               <select 
                 value={budget}
                 onChange={(e) => setBudget(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                className="w-full p-3 rounded-xl bg-neutral-900 text-neutral-100 border border-neutral-700 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
               >
                 <option value="">Select budget</option>
                 <option value="low">Low (₹5,000 - ₹15,000)</option>

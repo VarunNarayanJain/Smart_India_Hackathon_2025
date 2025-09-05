@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MapPin, Star, Clock, Camera, Plus } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function DestinationExplorer() {
   const [selectedDestination, setSelectedDestination] = useState(null);
@@ -76,9 +77,9 @@ export default function DestinationExplorer() {
             <div className="h-96 bg-green-100 rounded-2xl relative overflow-hidden">
               {/* Simplified map representation */}
               <div className="absolute inset-0 bg-gradient-to-br from-green-200 to-green-300">
-                <div className="absolute inset-0 opacity-30">
+                <div className="absolute inset-0 opacity-">
                   <img 
-                    src="https://images.pexels.com/photos/1252814/pexels-photo-1252814.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&dpr=1"
+                    src="./Maps.png"
                     alt="Jharkhand Map"
                     className="w-full h-full object-cover"
                   />
@@ -86,17 +87,18 @@ export default function DestinationExplorer() {
                 
                 {/* Map Pins */}
                 {destinations.map((dest) => (
-                  <button
+                  <Link
                     key={dest.id}
-                    onClick={() => setSelectedDestination(dest)}
-                    className="absolute bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm transition-all duration-200 hover:scale-110 shadow-lg"
+                    to={`/destination/${dest.id}`}
+                    className="absolute bg-black hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm transition-all duration-200 hover:scale-110 shadow-lg"
                     style={{
-                      top: `${20 + (dest.id * 15)}%`,
-                      left: `${25 + (dest.id * 18)}%`
+                      top: `${20 + (dest.id * 14)}%`,
+                      left: `${25 + (dest.id * 9)}%`
                     }}
+                    onClick={() => setSelectedDestination(dest)}
                   >
                     {dest.id}
-                  </button>
+                  </Link>
                 ))}
               </div>
               
@@ -104,7 +106,7 @@ export default function DestinationExplorer() {
               <div className="absolute bottom-4 left-4 bg-white rounded-xl p-3 shadow-lg">
                 <div className="text-xs text-gray-600">
                   <div className="flex items-center space-x-2 mb-1">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-black rounded-full"></div>
                     <span>Tourist Destinations</span>
                   </div>
                   <div className="text-green-600 font-medium">Jharkhand Tourism</div>
@@ -116,9 +118,10 @@ export default function DestinationExplorer() {
           {/* Right - Destination List */}
           <div className="space-y-6 max-h-96 overflow-y-auto">
             {destinations.map((destination) => (
-              <div
+              <Link
                 key={destination.id}
-                className={`bg-white rounded-2xl p-6 shadow-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer ${
+                to={`/destination/${destination.id}`}
+                className={`block bg-white rounded-2xl p-6 shadow-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer ${
                   selectedDestination?.id === destination.id ? 'border-green-500 ring-2 ring-green-200' : 'border-gray-100'
                 }`}
                 onClick={() => setSelectedDestination(destination)}
@@ -167,12 +170,12 @@ export default function DestinationExplorer() {
                       </div>
                       <button className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-xl text-sm font-medium transition-colors duration-200">
                         <Plus className="w-4 h-4" />
-                        <span>Add to Itinerary</span>
+                        <span>Explore</span>
                       </button>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
