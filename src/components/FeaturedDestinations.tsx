@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { ChevronLeft, ChevronRight, MapPin, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -61,11 +61,11 @@ export default function FeaturedDestinations() {
   };
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-green-50">
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-green-50 dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Featured Destinations</h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 animate-fadeInUp">Featured Destinations</h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto animate-fadeInUp">
             Explore the most breathtaking and culturally rich destinations Jharkhand has to offer
           </p>
         </div>
@@ -74,15 +74,15 @@ export default function FeaturedDestinations() {
           {/* Navigation Buttons */}
           <button
             onClick={() => scroll('left')}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white hover:bg-gray-50 rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hover:-translate-x-1"
           >
-            <ChevronLeft className="w-6 h-6 text-gray-600" />
+            <ChevronLeft className="w-6 h-6 text-gray-600 dark:text-white" />
           </button>
           <button
             onClick={() => scroll('right')}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white hover:bg-gray-50 rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hover:translate-x-1"
           >
-            <ChevronRight className="w-6 h-6 text-gray-600" />
+            <ChevronRight className="w-6 h-6 text-gray-600 dark:text-white" />
           </button>
 
           {/* Destinations Carousel */}
@@ -95,7 +95,7 @@ export default function FeaturedDestinations() {
               <Link
                 key={destination.id}
                 to={`/destination/${destination.id}`}
-                className="flex-none w-80 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 overflow-hidden group cursor-pointer"
+                className="flex-none w-80 bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 overflow-hidden group cursor-pointer border border-gray-100 dark:border-gray-700"
               >
                 <div className="relative h-48 overflow-hidden">
                   <img
@@ -111,11 +111,11 @@ export default function FeaturedDestinations() {
                 </div>
                 
                 <div className="p-6">
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
                     {destination.story}
                   </p>
                   
-                  <div className="flex justify-between items-center text-xs text-gray-500 mb-4">
+                  <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 mb-4">
                     <div className="flex items-center space-x-1">
                       <Clock className="w-3 h-3" />
                       <span>{destination.bestSeason}</span>
@@ -126,7 +126,7 @@ export default function FeaturedDestinations() {
                     </div>
                   </div>
                   
-                  <div className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl font-medium transition-colors duration-200 text-center">
+                  <div className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl font-medium transition-all duration-300 text-center hover:shadow-lg hover:scale-105 group-hover:animate-pulse">
                     Explore More
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Send, Mic, HelpCircle, MessageCircle } from 'lucide-react';
 
 export default function Chatbot() {
@@ -92,21 +92,21 @@ export default function Chatbot() {
   };
 
   return (
-    <div className="pt-20 min-h-screen bg-stone-50">
+    <div className="pt-20 min-h-screen bg-stone-50 dark:bg-black transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4 flex items-center justify-center space-x-3">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center justify-center space-x-3">
             <MessageCircle className="w-10 h-10 text-green-600" />
             <span>Tour Companion Chatbot</span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Get instant answers about Jharkhand tourism, local culture, and travel tips
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Chat Interface */}
-          <div className="lg:col-span-3 bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden">
+          <div className="lg:col-span-3 bg-white dark:bg-gray-900 rounded-3xl shadow-lg dark:shadow-black/50 border border-gray-100 dark:border-gray-800 overflow-hidden hover:shadow-xl transition-all duration-500">
             {/* Chat Header */}
             <div className="bg-gradient-to-r from-green-600 to-green-700 p-4">
               <div className="flex items-center space-x-3">
@@ -128,16 +128,16 @@ export default function Chatbot() {
                   className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${
+                    className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl transition-all duration-300 hover:scale-105 ${
                       message.sender === 'user'
                         ? 'bg-green-600 text-white'
-                        : 'bg-gray-100 text-gray-900'
+                        : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white'
                     }`}
                   >
                     <p className="text-sm">{message.text}</p>
                     <p
                       className={`text-xs mt-1 ${
-                        message.sender === 'user' ? 'text-green-200' : 'text-gray-500'
+                        message.sender === 'user' ? 'text-green-200' : 'text-gray-500 dark:text-gray-400'
                       }`}
                     >
                       {message.timestamp}
@@ -148,7 +148,7 @@ export default function Chatbot() {
             </div>
 
             {/* Input */}
-            <div className="border-t border-gray-100 p-4">
+            <div className="border-t border-gray-100 dark:border-gray-700 p-4">
               <div className="flex space-x-3">
                 <input
                   type="text"
@@ -156,15 +156,15 @@ export default function Chatbot() {
                   onChange={(e) => setNewMessage(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                   placeholder="Ask about Jharkhand tourism..."
-                  className="flex-1 p-3 border text-gray-900 border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                  className="flex-1 p-3 border text-gray-900 dark:text-white border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
                 />
-                <button className="p-3 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors duration-200">
-                  <Mic className="w-5 h-5 text-gray-600" />
+                <button className="p-3 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-xl transition-colors duration-200">
+                  <Mic className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                 </button>
                 <button 
                   onClick={handleSendMessage}
                   disabled={isLoading}
-                  className="p-3 bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white rounded-xl transition-colors duration-200"
+                  className="p-3 bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white rounded-xl transition-all duration-200 hover:scale-105"
                 >
                   {isLoading ? (
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
@@ -178,8 +178,8 @@ export default function Chatbot() {
 
           {/* FAQ Sidebar */}
           <div className="lg:col-span-1 space-y-6">
-            <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center space-x-2">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg dark:shadow-black/50 border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-500 animate-fadeInUp" style={{ animationDelay: '200ms' }}>
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center space-x-2">
                 <HelpCircle className="w-5 h-5 text-green-600" />
                 <span>Quick Questions</span>
               </h3>
@@ -188,7 +188,7 @@ export default function Chatbot() {
                   <button
                     key={index}
                     onClick={() => handleFAQClick(item)}
-                    className="w-full text-left p-3 bg-gray-50 hover:bg-green-50 hover:text-green-700 text-gray-900 rounded-xl text-sm font-medium transition-all duration-200 hover:scale-105"
+                    className="w-full text-left p-3 bg-gray-50 dark:bg-gray-800 hover:bg-green-50 dark:hover:bg-green-900 hover:text-green-700 dark:hover:text-green-400 text-gray-900 dark:text-white rounded-xl text-sm font-medium transition-all duration-200 hover:scale-105"
                   >
                     {item}
                   </button>
