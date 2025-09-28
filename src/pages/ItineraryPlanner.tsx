@@ -5,6 +5,7 @@ import { useItinerary } from '../context/ItineraryContext';
 export default function ItineraryPlanner() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const [generatedItinerary, setGeneratedItinerary] = useState<any>(null);
   const [formData, setFormData] = useState({
     startCity: '',
     dates: '',
@@ -29,34 +30,50 @@ export default function ItineraryPlanner() {
     }));
   }, [desiredPlaces]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsGenerating(true);
     
     // Log the form data including desired places for debugging
     console.log('Form data submitted:', formData);
     
-    // Example of how this data would be sent to LLM:
-    // const prompt = `
-    //   Create a personalized itinerary for:
-    //   - Starting from: ${formData.startCity}
-    //   - Dates: ${formData.dates}
-    //   - Duration: ${formData.duration} days
-    //   - Interests: ${formData.interests.join(', ')}
-    //   - Group type: ${formData.groupType}
-    //   - Desired places to include: ${formData.desiredPlaces.length > 0 ? formData.desiredPlaces.join(', ') : 'No specific places mentioned'}
-    //   
-    //   ${formData.desiredPlaces.length > 0 ? 
-    //     'Please prioritize including the mentioned places in the itinerary while ensuring a logical route and good time management.' : 
-    //     'Please suggest popular and interesting places based on the interests and group type.'
-    //   }
-    // `;
-    
-    // Simulate AI generation
-    setTimeout(() => {
+    try {
+      // Call the backend API to generate itinerary
+      const response = await fetch('http://localhost:5000/api/itinerary/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          startCity: formData.startCity,
+          dates: formData.dates,
+          duration: formData.duration,
+          interests: formData.interests,
+          groupType: formData.groupType,
+          desiredPlaces: formData.desiredPlaces
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (data.success) {
+        console.log('✅ Itinerary generated successfully:', data);
+        // Store the AI-generated itinerary
+        setGeneratedItinerary(data.itinerary);
+        setShowResults(true);
+      } else {
+        throw new Error(data.message || 'Failed to generate itinerary');
+      }
+    } catch (error) {
+      console.error('❌ Error generating itinerary:', error);
+      alert(`Failed to generate itinerary: ${error.message}`);
+    } finally {
       setIsGenerating(false);
-      setShowResults(true);
-    }, 3000);
+    }
   };
 
   const addPlace = () => {
@@ -311,7 +328,60 @@ export default function ItineraryPlanner() {
                 </div>
 
                 <div className="space-y-6 max-h-96 overflow-y-auto">
-                  {sampleItinerary.map((day) => (
+                  {generatedItinerary ? (
+                    <>
+                      {/* AI Generated Content */}
+                      <div className="bg-blue-50 rounded-2xl p-6 border border-blue-100 mb-6">
+                        <h3 className="text-lg font-bold text-blue-900 mb-3 flex items-center space-x-2">
+                          <Sparkles className="w-5 h-5" />
+                          <span>AI-Generated Itinerary</span>
+                        </h3>
+                        <div className="prose prose-sm max-w-none">
+                          <pre className="whitespace-pre-wrap text-sm text-gray-700 font-sans">
+                            {generatedItinerary.rawContent}
+                          </pre>
+                        </div>
+                      </div>
+
+                      {/* Structured Days */}
+                      {generatedItinerary.structuredDays && generatedItinerary.structuredDays.length > 0 && (
+                        generatedItinerary.structuredDays.map((day: any) => (
+                          <div key={day.day} className="bg-green-50 rounded-2xl p-6 border border-green-100">
+                            <div className="flex items-start space-x-4 mb-4">
+                              <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
+                                <img
+                                  src={day.image}
+                                  alt={day.location}
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div>
+                                <h3 className="text-lg font-bold text-gray-900">Day {day.day}</h3>
+                                <p className="text-green-600 font-medium">{day.location}</p>
+                              </div>
+                            </div>
+
+                            <div className="space-y-3 mb-4">
+                              {day.activities.map((activity: any, index: number) => (
+                                <div key={index} className="flex items-center space-x-3">
+                                  <MapPin className="w-4 h-4 text-green-600" />
+                                  <span className="text-sm font-medium text-green-700">{activity.time}</span>
+                                  <span className="text-sm text-gray-700">{activity.activity}</span>
+                                </div>
+                              ))}
+                            </div>
+
+                            <div className="bg-white/70 rounded-xl p-4 border-l-4 border-green-600">
+                              <p className="text-sm text-gray-700 italic">
+                                <strong>Why we recommended this:</strong> {day.recommendation}
+                              </p>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </>
+                  ) : (
+                    sampleItinerary.map((day) => (
                     <div key={day.day} className="bg-green-50 rounded-2xl p-6 border border-green-100">
                       <div className="flex items-start space-x-4 mb-4">
                         <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
@@ -343,7 +413,8 @@ export default function ItineraryPlanner() {
                         </p>
                       </div>
                     </div>
-                  ))}
+                    ))
+                  )}
                 </div>
               </div>
             )}

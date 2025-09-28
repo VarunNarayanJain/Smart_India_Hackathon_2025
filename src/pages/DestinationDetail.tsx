@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { 
-  MapPin,
-  Clock,
-  Star,
+  MapPin, 
+  Clock, 
+  Star, 
   Camera,
   Play,
   Heart,
@@ -52,12 +52,12 @@ export default function DestinationDetail() {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Destination Not Found</h1>
           <p className="text-gray-600 mb-6">The destination you're looking for doesn't exist.</p>
-          <Link
-            to="/"
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-medium transition-colors duration-200"
-          >
-            Back to Home
-          </Link>
+                     <Link
+             to="/"
+             className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-medium transition-colors duration-200"
+           >
+             Back to Home
+           </Link>
         </div>
       </div>
     );
@@ -92,78 +92,78 @@ export default function DestinationDetail() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
         
-        {/* Back Button */}
-        <Link
-          to="/"
-          className="absolute top-6 left-6 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-all duration-200"
-        >
-          <ArrowLeft className="w-6 h-6" />
-        </Link>
+                 {/* Back Button */}
+         <Link
+           to="/"
+           className="absolute top-6 left-6 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-all duration-200"
+         >
+           <ArrowLeft className="w-6 h-6" />
+         </Link>
 
-        {/* Action Buttons */}
-        <div className="absolute top-6 right-6 flex space-x-3">
-          <button
-            onClick={() => setIsLiked(!isLiked)}
-            className={`p-3 rounded-full backdrop-blur-sm transition-all duration-200 ${
-              isLiked ? 'bg-red-500/80 text-white' : 'bg-white/20 text-white hover:bg-white/30'
-            }`}
-          >
-            <Heart className={`w-6 h-6 ${isLiked ? 'fill-current' : ''}`} />
-          </button>
-          <button className="bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-all duration-200">
-            <Share2 className="w-6 h-6" />
-          </button>
-        </div>
+                 {/* Action Buttons */}
+         <div className="absolute top-6 right-6 flex space-x-3">
+           <button
+             onClick={() => setIsLiked(!isLiked)}
+             className={`p-3 rounded-full backdrop-blur-sm transition-all duration-200 ${
+               isLiked ? 'bg-red-500/80 text-white' : 'bg-white/20 text-white hover:bg-white/30'
+             }`}
+           >
+             <Heart className={`w-6 h-6 ${isLiked ? 'fill-current' : ''}`} />
+           </button>
+           <button className="bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-all duration-200">
+             <Share2 className="w-6 h-6" />
+           </button>
+         </div>
 
-        {/* Add to Itinerary Button */}
-        <div className="absolute bottom-8 right-8 z-50" style={{ pointerEvents: 'auto' }}>
-          <button
-            onClick={handleAddToItinerary}
-            className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
-              isInItinerary 
-                ? 'bg-green-600 text-white' 
-                : 'bg-white/20 backdrop-blur-sm text-white hover:bg-white/30'
-            }`}
-            style={{ cursor: 'pointer', pointerEvents: 'auto' }}
-          >
-            {isInItinerary ? (
-              <>
-                <Check className="w-5 h-5" />
-                <span>Added to Itinerary</span>
-              </>
-            ) : (
-              <>
-                <Plus className="w-5 h-5" />
-                <span>Add to Itinerary</span>
-              </>
-            )}
-          </button>
-          
-          {isInItinerary && (
-            <Link
-              to="/itinerary"
-              className="block mt-2 text-center text-sm text-white hover:text-green-300 transition-colors duration-200"
-            >
-              View Itinerary →
-            </Link>
-          )}
-        </div>
+         {/* Add to Itinerary Button */}
+         <div className="absolute bottom-8 right-8 z-50" style={{ pointerEvents: 'auto' }}>
+           <button
+             onClick={handleAddToItinerary}
+             className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
+               isInItinerary 
+                 ? 'bg-green-600 text-white' 
+                 : 'bg-white/20 backdrop-blur-sm text-white hover:bg-white/30'
+             }`}
+             style={{ cursor: 'pointer', pointerEvents: 'auto' }}
+           >
+             {isInItinerary ? (
+               <>
+                 <Check className="w-5 h-5" />
+                 <span>Added to Itinerary</span>
+               </>
+             ) : (
+               <>
+                 <Plus className="w-5 h-5" />
+                 <span>Add to Itinerary</span>
+               </>
+             )}
+           </button>
+           
+           {isInItinerary && (
+             <Link
+               to="/itinerary"
+               className="block mt-2 text-center text-sm text-white hover:text-green-300 transition-colors duration-200"
+             >
+               View Itinerary →
+             </Link>
+           )}
+         </div>
 
-        {/* Hero Content */}
-        <div className="absolute bottom-0 left-0 right-0 p-8 text-white z-10">
-          <h1 className="text-5xl font-bold mb-2">{destination.name}</h1>
-          <p className="text-xl text-green-300 mb-4">{destination.tagline}</p>
-          <div className="flex items-center space-x-6 text-sm">
-            <div className="flex items-center space-x-2">
-              <MapPin className="w-4 h-4" />
-              <span>{destination.location}</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Clock className="w-4 h-4" />
-              <span>Best Time: {destination.bestTime}</span>
-            </div>
-          </div>
-        </div>
+                 {/* Hero Content */}
+         <div className="absolute bottom-0 left-0 right-0 p-8 text-white z-10">
+           <h1 className="text-5xl font-bold mb-2">{destination.name}</h1>
+           <p className="text-xl text-green-300 mb-4">{destination.tagline}</p>
+           <div className="flex items-center space-x-6 text-sm">
+             <div className="flex items-center space-x-2">
+               <MapPin className="w-4 h-4" />
+               <span>{destination.location}</span>
+             </div>
+             <div className="flex items-center space-x-2">
+               <Clock className="w-4 h-4" />
+               <span>Best Time: {destination.bestTime}</span>
+             </div>
+           </div>
+         </div>
       </div>
 
       {/* Main Content */}
@@ -324,27 +324,27 @@ export default function DestinationDetail() {
               </div>
             )}
 
-            {/* Local Guides Tab */}
-            {activeTab === 'guides' && (
-              <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-bold text-gray-900">Local Guides</h3>
-                  <p className="text-gray-600">Expert local guides to enhance your experience</p>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {destination.localGuides.map((guide) => (
-                    <div key={guide.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-200">
-                      <div className="p-6">
-                        <div className="flex items-start space-x-4 mb-4">
-                          <img
-                            src={guide.avatar}
-                            alt={guide.name}
-                            className="w-16 h-16 rounded-full object-cover"
-                          />
-                          <div className="flex-1">
-                            <h4 className="font-bold text-gray-900 text-lg">{guide.name}</h4>
-                            <p className="text-sm text-gray-600">{guide.experience} experience</p>
+                         {/* Local Guides Tab */}
+             {activeTab === 'guides' && (
+               <div className="space-y-6">
+                 <div className="flex items-center justify-between">
+                   <h3 className="text-2xl font-bold text-gray-900">Local Guides</h3>
+                   <p className="text-gray-600">Expert local guides to enhance your experience</p>
+                 </div>
+                 
+                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                   {destination.localGuides.map((guide) => (
+                     <div key={guide.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-200">
+                       <div className="p-6">
+                         <div className="flex items-start space-x-4 mb-4">
+                           <img
+                             src={guide.avatar}
+                             alt={guide.name}
+                             className="w-16 h-16 rounded-full object-cover"
+                           />
+                           <div className="flex-1">
+                             <h4 className="font-bold text-gray-900 text-lg">{guide.name}</h4>
+                             <p className="text-sm text-gray-600">{guide.experience} experience</p>
                             <div className="mt-1">
                               {guide.verificationStatus === 'verified' && (
                                 <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
@@ -362,74 +362,74 @@ export default function DestinationDetail() {
                                 </span>
                               )}
                             </div>
-                            <div className="flex items-center space-x-1 mt-1">
-                              {[1, 2, 3, 4, 5].map((star) => (
-                                <Star
-                                  key={star}
-                                  className={`w-4 h-4 ${
-                                    star <= guide.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
-                                  }`}
-                                />
-                              ))}
-                              <span className="text-sm font-semibold text-gray-900 ml-1">{guide.rating}</span>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <p className="text-gray-700 text-sm mb-4">{guide.description}</p>
-                        
-                        <div className="space-y-3">
-                          <div>
-                            <p className="text-sm font-semibold text-gray-900 mb-1">Languages:</p>
-                            <div className="flex flex-wrap gap-1">
-                              {guide.languages.map((language, idx) => (
-                                <span
-                                  key={idx}
-                                  className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full"
-                                >
-                                  {language}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                          
-                          <div>
-                            <p className="text-sm font-semibold text-gray-900 mb-1">Specialties:</p>
-                            <div className="flex flex-wrap gap-1">
-                              {guide.specialties.map((specialty, idx) => (
-                                <span
-                                  key={idx}
-                                  className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full"
-                                >
-                                  {specialty}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                            <div>
-                              <p className="text-lg font-bold text-green-600">{guide.hourlyRate}</p>
-                              <p className="text-xs text-gray-600">per hour</p>
-                            </div>
-                            <div className="flex space-x-2">
-                              <button className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-colors duration-200">
-                                Book Now
-                              </button>
-                              <button className="px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg text-sm font-medium transition-colors duration-200">
-                                Contact
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+                             <div className="flex items-center space-x-1 mt-1">
+                               {[1, 2, 3, 4, 5].map((star) => (
+                                 <Star
+                                   key={star}
+                                   className={`w-4 h-4 ${
+                                     star <= guide.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
+                                   }`}
+                                 />
+                               ))}
+                               <span className="text-sm font-semibold text-gray-900 ml-1">{guide.rating}</span>
+                             </div>
+                           </div>
+                         </div>
+                         
+                         <p className="text-gray-700 text-sm mb-4">{guide.description}</p>
+                         
+                         <div className="space-y-3">
+                           <div>
+                             <p className="text-sm font-semibold text-gray-900 mb-1">Languages:</p>
+                             <div className="flex flex-wrap gap-1">
+                               {guide.languages.map((language, idx) => (
+                                 <span
+                                   key={idx}
+                                   className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full"
+                                 >
+                                   {language}
+                                 </span>
+                               ))}
+                             </div>
+                           </div>
+                           
+                           <div>
+                             <p className="text-sm font-semibold text-gray-900 mb-1">Specialties:</p>
+                             <div className="flex flex-wrap gap-1">
+                               {guide.specialties.map((specialty, idx) => (
+                                 <span
+                                   key={idx}
+                                   className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full"
+                                 >
+                                   {specialty}
+                                 </span>
+                               ))}
+                             </div>
+                           </div>
+                           
+                           <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+                             <div>
+                               <p className="text-lg font-bold text-green-600">{guide.hourlyRate}</p>
+                               <p className="text-xs text-gray-600">per hour</p>
+                             </div>
+                             <div className="flex space-x-2">
+                               <button className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-colors duration-200">
+                                 Book Now
+                               </button>
+                               <button className="px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg text-sm font-medium transition-colors duration-200">
+                                 Contact
+                               </button>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+                   ))}
+                 </div>
+               </div>
+             )}
 
-            {/* Local Eateries Tab */}
+             {/* Local Eateries Tab */}
             {activeTab === 'eateries' && (
               <div className="space-y-6">
                 <h3 className="text-2xl font-bold text-gray-900">Local Eateries</h3>

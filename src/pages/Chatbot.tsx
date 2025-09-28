@@ -11,6 +11,7 @@ export default function Chatbot() {
     }
   ]);
   const [newMessage, setNewMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const faqItems = [
     "How to reach Netarhat?",
@@ -21,8 +22,8 @@ export default function Chatbot() {
     "Wildlife safari bookings"
   ];
 
-  const handleSendMessage = () => {
-    if (newMessage.trim()) {
+  const handleSendMessage = async () => {
+    if (newMessage.trim() && !isLoading) {
       const userMessage = {
         id: Date.now(),
         text: newMessage,
@@ -30,19 +31,58 @@ export default function Chatbot() {
         timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
       };
       
-      setMessages([...messages, userMessage]);
+      setMessages(prev => [...prev, userMessage]);
+      const currentMessage = newMessage;
       setNewMessage('');
+      setIsLoading(true);
       
-      // Simulate bot response
-      setTimeout(() => {
-        const botResponse = {
+      try {
+        // Call the backend chatbot API
+        const response = await fetch('http://localhost:5000/api/chatbot/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: currentMessage,
+            conversationHistory: messages.slice(-10).map(msg => ({
+              role: msg.sender === 'user' ? 'user' : 'assistant',
+              content: msg.text
+            }))
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        if (data.success) {
+          const botResponse = {
+            id: Date.now() + 1,
+            text: data.response,
+            sender: 'bot',
+            timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+            language: data.language,
+            quickActions: data.quickActions || []
+          };
+          setMessages(prev => [...prev, botResponse]);
+        } else {
+          throw new Error(data.message || 'Failed to get response');
+        }
+      } catch (error) {
+        console.error('❌ Error calling chatbot API:', error);
+        const errorResponse = {
           id: Date.now() + 1,
-          text: "Thank you for your question! Based on your query about Jharkhand tourism, I recommend visiting during the winter months (October-March) for the best weather. Would you like specific information about any destination?",
+          text: `Sorry, I'm having trouble connecting right now. Please try again later. (Error: ${error.message})`,
           sender: 'bot',
           timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
         };
-        setMessages(prev => [...prev, botResponse]);
-      }, 1500);
+        setMessages(prev => [...prev, errorResponse]);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -123,9 +163,14 @@ export default function Chatbot() {
                 </button>
                 <button 
                   onClick={handleSendMessage}
-                  className="p-3 bg-green-600 hover:bg-green-700 text-white rounded-xl transition-colors duration-200"
+                  disabled={isLoading}
+                  className="p-3 bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white rounded-xl transition-colors duration-200"
                 >
-                  <Send className="w-5 h-5" />
+                  {isLoading ? (
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  ) : (
+                    <Send className="w-5 h-5" />
+                  )}
                 </button>
               </div>
             </div>

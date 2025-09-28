@@ -11,7 +11,7 @@ export default function FeaturedDestinations() {
       name: 'Netarhat',
       tagline: 'Queen of Chotanagpur Plateau',
       story: 'Famous for sunrise views and pine forests that create a magical morning mist',
-      image: 'https://images.pexels.com/photos/1166209/pexels-photo-1166209.jpeg?auto=compress&cs=tinysrgb&w=500&h=300&dpr=1',
+      image: '/n1.jpg',
       bestSeason: 'Oct-Mar',
       distance: '156 km from Ranchi'
     },
@@ -20,7 +20,7 @@ export default function FeaturedDestinations() {
       name: 'Hundru Falls',
       tagline: 'Thundering Beauty',
       story: 'Where Subarnarekha river creates a spectacular 98-meter waterfall',
-      image: 'https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=500&h=300&dpr=1',
+      image: 'h1.jpg',
       bestSeason: 'Jul-Jan',
       distance: '45 km from Ranchi'
     },
@@ -29,7 +29,7 @@ export default function FeaturedDestinations() {
       name: 'Betla National Park',
       tagline: 'Wildlife Paradise',
       story: 'Home to tigers, elephants and rich biodiversity in the Palamau region',
-      image: 'https://images.pexels.com/photos/1059823/pexels-photo-1059823.jpeg?auto=compress&cs=tinysrgb&w=500&h=300&dpr=1',
+      image: 'b1.jpg',
       bestSeason: 'Nov-Apr',
       distance: '170 km from Ranchi'
     },
@@ -38,7 +38,7 @@ export default function FeaturedDestinations() {
       name: 'Deoghar',
       tagline: 'Abode of Gods',
       story: 'Sacred temple town famous for Baba Baidyanath Dham and spiritual energy',
-      image: 'https://images.pexels.com/photos/1007025/pexels-photo-1007025.jpeg?auto=compress&cs=tinysrgb&w=500&h=300&dpr=1',
+      image: 'deo1.jpeg',
       bestSeason: 'Oct-Mar',
       distance: '250 km from Ranchi'
     },
@@ -47,7 +47,7 @@ export default function FeaturedDestinations() {
       name: 'Hazaribagh',
       tagline: 'Land of Thousand Gardens',
       story: 'Rolling hills, wildlife sanctuary and serene lakes create perfect retreat',
-      image: 'https://images.pexels.com/photos/1761279/pexels-photo-1761279.jpeg?auto=compress&cs=tinysrgb&w=500&h=300&dpr=1',
+      image: 'haz1.jpg',
       bestSeason: 'Sep-Mar',
       distance: '91 km from Ranchi'
     }
