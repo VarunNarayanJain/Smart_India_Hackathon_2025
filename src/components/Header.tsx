@@ -2,27 +2,24 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Globe, User, LogIn, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Header() {
   const { theme, toggleTheme } = useTheme();
+  const { language, toggleLanguage, t } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [language, setLanguage] = useState('en');
   const location = useLocation();
 
   const navigation = [
-    { name: 'Home', path: '/' },
-    { name: 'Destinations', path: '/destinations' },
-    { name: 'Itinerary', path: '/itinerary' },
-    { name: 'Marketplace', path: '/marketplace' },
-    { name: 'Chatbot', path: '/chatbot' },
-    { name: 'Dashboard', path: '/dashboard' },
+    { name: t('header.home'), path: '/' },
+    { name: t('header.destinations'), path: '/destinations' },
+    { name: t('header.itinerary'), path: '/itinerary' },
+    { name: t('header.marketplace'), path: '/marketplace' },
+    { name: t('header.chatbot'), path: '/chatbot' },
+    { name: t('header.dashboard'), path: '/dashboard' },
   ];
 
-  const languages = [
-    { code: 'en', name: 'English' },
-    { code: 'hi', name: 'हिंदी' },
-    { code: 'local', name: 'स्थानीय' },
-  ];
+
 
   return (
     <header className="bg-white/95 dark:bg-black/95 backdrop-blur-md shadow-lg dark:shadow-black/50 fixed top-0 left-0 right-0 z-50 border-b border-gray-100 dark:border-gray-800 transition-all duration-300">
@@ -36,8 +33,8 @@ export default function Header() {
               className="w-15 h-12 object-contain group-hover:scale-105 transition-transform duration-200"
             />
             <div className="hidden sm:block">
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white">Jharkhand Tourism</h1>
-              <p className="text-xs text-green-600 dark:text-green-400 animate-pulse">Eco & Cultural Portal</p>
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white">{t('header.jharkhandTourism')}</h1>
+              <p className="text-xs text-green-600 dark:text-green-400 animate-pulse">{t('header.ecoPortal')}</p>
             </div>
           </Link>
 
@@ -72,12 +69,12 @@ export default function Header() {
             </button>
             <div className="relative">
               <button
-                onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
+                onClick={toggleLanguage}
                 className="flex items-center space-x-2 px-3 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300 hover:scale-105"
               >
                 <Globe className="w-4 h-4 text-gray-600 dark:text-white" />
                 <span className="text-sm font-medium text-gray-700 dark:text-white">
-                  {languages.find(lang => lang.code === language)?.name}
+                  {language === 'en' ? 'हिंदी' : 'English'}
                 </span>
               </button>
             </div>

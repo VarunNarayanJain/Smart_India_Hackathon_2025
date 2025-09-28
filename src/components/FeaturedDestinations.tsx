@@ -1,8 +1,11 @@
 import { useRef } from 'react';
 import { ChevronLeft, ChevronRight, MapPin, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
+import { getTranslatedDestinationName, getTranslatedDestinationTagline, getTranslatedDestinationDescription } from '../data/destinationTranslations';
 
 export default function FeaturedDestinations() {
+  const { t, language } = useLanguage();
   const scrollContainer = useRef<HTMLDivElement>(null);
 
   const destinations = [
@@ -64,7 +67,7 @@ export default function FeaturedDestinations() {
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-green-50 dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 animate-fadeInUp">Featured Destinations</h2>
+          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 animate-fadeInUp">{t('home.featuredDestinations')}</h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto animate-fadeInUp">
             Explore the most breathtaking and culturally rich destinations Jharkhand has to offer
           </p>
@@ -96,6 +99,7 @@ export default function FeaturedDestinations() {
                 key={destination.id}
                 to={`/destination/${destination.id}`}
                 className="flex-none w-80 bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 overflow-hidden group cursor-pointer border border-gray-100 dark:border-gray-700"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               >
                 <div className="relative h-48 overflow-hidden">
                   <img
@@ -105,14 +109,14 @@ export default function FeaturedDestinations() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                   <div className="absolute bottom-4 left-4 text-white">
-                    <h3 className="text-xl font-bold">{destination.name}</h3>
-                    <p className="text-sm text-green-300">{destination.tagline}</p>
+                    <h3 className="text-xl font-bold">{getTranslatedDestinationName(destination.id, language)}</h3>
+                    <p className="text-sm text-green-300">{getTranslatedDestinationTagline(destination.id, language)}</p>
                   </div>
                 </div>
                 
                 <div className="p-6">
                   <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
-                    {destination.story}
+                    {getTranslatedDestinationDescription(destination.id, language)}
                   </p>
                   
                   <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 mb-4">
@@ -127,7 +131,7 @@ export default function FeaturedDestinations() {
                   </div>
                   
                   <div className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl font-medium transition-all duration-300 text-center hover:shadow-lg hover:scale-105 group-hover:animate-pulse">
-                    Explore More
+                    {t('home.exploreMore')}
                   </div>
                 </div>
               </Link>

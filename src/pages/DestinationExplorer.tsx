@@ -1,9 +1,25 @@
-import React, { useState } from 'react';
-import { MapPin, Star, Clock, Camera, Plus } from 'lucide-react';
+import { useState } from 'react';
+import { MapPin, Star, Clock, Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
+import { getTranslatedDestinationName, getTranslatedDestinationTagline, getTranslatedDestinationDescription } from '../data/destinationTranslations';
+
+interface Destination {
+  id: number;
+  name: string;
+  tagline: string;
+  image: string;
+  rating: number;
+  bestSeason: string;
+  distance: string;
+  activities: string[];
+  description: string;
+  coordinates: { lat: number; lng: number; };
+}
 
 export default function DestinationExplorer() {
-  const [selectedDestination, setSelectedDestination] = useState(null);
+  const [selectedDestination, setSelectedDestination] = useState<Destination | null>(null);
+  const { t, language } = useLanguage();
 
   const destinations = [
     {
@@ -60,9 +76,9 @@ export default function DestinationExplorer() {
     <div className="pt-20 min-h-screen bg-stone-50 dark:bg-black transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 animate-fadeInUp">Destination Explorer</h1>
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 animate-fadeInUp">{t('explorer.title')}</h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto animate-fadeInUp">
-            Discover amazing places across Jharkhand with interactive maps and detailed guides
+            {t('explorer.subtitle')}
           </p>
         </div>
 
@@ -70,8 +86,8 @@ export default function DestinationExplorer() {
           {/* Left - Interactive Map */}
           <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 shadow-lg dark:shadow-black/50 border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-500 animate-fadeInUp">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Interactive Map</h2>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Click pins to explore</div>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">{t('explorer.interactiveMap')}</h2>
+              <div className="text-sm text-gray-600 dark:text-gray-300">{t('explorer.clickPins')}</div>
             </div>
             
             <div className="h-96 bg-green-100 rounded-2xl relative overflow-hidden">
@@ -107,7 +123,7 @@ export default function DestinationExplorer() {
                 <div className="text-xs text-gray-600 dark:text-gray-300">
                   <div className="flex items-center space-x-2 mb-1">
                     <div className="w-3 h-3 bg-black dark:bg-red-600 rounded-full"></div>
-                    <span>Tourist Destinations</span>
+                    <span>{t('explorer.touristDestinations')}</span>
                   </div>
                   <div className="text-green-600 dark:text-green-400 font-medium">Jharkhand Tourism</div>
                 </div>
@@ -138,8 +154,8 @@ export default function DestinationExplorer() {
                   <div className="flex-1 space-y-2">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">{destination.name}</h3>
-                        <p className="text-green-600 dark:text-green-400 text-sm font-medium">{destination.tagline}</p>
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">{getTranslatedDestinationName(destination.id, language)}</h3>
+                        <p className="text-green-600 dark:text-green-400 text-sm font-medium">{getTranslatedDestinationTagline(destination.id, language)}</p>
                       </div>
                       <div className="flex items-center space-x-1">
                         <Star className="w-4 h-4 text-yellow-400 fill-current" />
@@ -147,7 +163,7 @@ export default function DestinationExplorer() {
                       </div>
                     </div>
                     
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">{destination.description}</p>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">{getTranslatedDestinationDescription(destination.id, language)}</p>
                     
                     <div className="flex flex-wrap gap-2">
                       <div className="flex items-center space-x-1 text-xs text-gray-500 dark:text-gray-400">
@@ -170,7 +186,7 @@ export default function DestinationExplorer() {
                       </div>
                       <button className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-xl text-sm font-medium transition-colors duration-200">
                         <Plus className="w-4 h-4" />
-                        <span>Explore</span>
+                        <span>{t('explorer.explore')}</span>
                       </button>
                     </div>
                   </div>

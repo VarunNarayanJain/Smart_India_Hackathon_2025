@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { Send, Mic, HelpCircle, MessageCircle } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Chatbot() {
+  const { t } = useLanguage();
+  
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Hello! I'm your Jharkhand tour companion. How can I help you plan your trip? 🌲",
+      text: t('chatbot.welcome'),
       sender: 'bot',
       timestamp: '10:30 AM'
     }
@@ -14,12 +17,12 @@ export default function Chatbot() {
   const [isLoading, setIsLoading] = useState(false);
 
   const faqItems = [
-    "How to reach Netarhat?",
-    "Local food options?",
-    "Emergency contacts",
-    "Best time to visit?",
-    "Tribal culture tours",
-    "Wildlife safari bookings"
+    t('chatbot.howToReach'),
+    t('chatbot.localFood'),
+    t('chatbot.emergency'),
+    t('chatbot.bestTime'),
+    t('chatbot.tribalCulture'),
+    t('chatbot.safari')
   ];
 
   const handleSendMessage = async () => {
@@ -75,7 +78,7 @@ export default function Chatbot() {
         console.error('❌ Error calling chatbot API:', error);
         const errorResponse = {
           id: Date.now() + 1,
-          text: `Sorry, I'm having trouble connecting right now. Please try again later. (Error: ${error.message})`,
+          text: `Sorry, I'm having trouble connecting right now. Please try again later. (Error: ${error instanceof Error ? error.message : 'Unknown error'})`,
           sender: 'bot',
           timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
         };
@@ -97,10 +100,10 @@ export default function Chatbot() {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center justify-center space-x-3">
             <MessageCircle className="w-10 h-10 text-green-600" />
-            <span>Tour Companion Chatbot</span>
+            <span>{t('chatbot.title')}</span>
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Get instant answers about Jharkhand tourism, local culture, and travel tips
+            {t('chatbot.subtitle')}
           </p>
         </div>
 
@@ -114,8 +117,8 @@ export default function Chatbot() {
                   <MessageCircle className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold">Jharkhand Tour Guide</h3>
-                  <p className="text-green-100 text-sm">Online • Always ready to help</p>
+                  <h3 className="text-white font-semibold">{t('chatbot.guideName')}</h3>
+                  <p className="text-green-100 text-sm">{t('chatbot.status')}</p>
                 </div>
               </div>
             </div>
@@ -155,7 +158,7 @@ export default function Chatbot() {
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                  placeholder="Ask about Jharkhand tourism..."
+                  placeholder={t('chatbot.placeholder')}
                   className="flex-1 p-3 border text-gray-900 dark:text-white border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
                 />
                 <button className="p-3 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-xl transition-colors duration-200">
@@ -181,7 +184,7 @@ export default function Chatbot() {
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg dark:shadow-black/50 border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-500 animate-fadeInUp" style={{ animationDelay: '200ms' }}>
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center space-x-2">
                 <HelpCircle className="w-5 h-5 text-green-600" />
-                <span>Quick Questions</span>
+                <span>{t('chatbot.quickQuestions')}</span>
               </h3>
               <div className="space-y-3">
                 {faqItems.map((item, index) => (

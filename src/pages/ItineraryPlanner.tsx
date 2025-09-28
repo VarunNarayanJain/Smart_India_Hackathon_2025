@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Calendar, MapPin, Clock, Users, DollarSign, Download, Sparkles, Plus, X } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import { MapPin, Clock, Users, Download, Sparkles, Plus, X } from 'lucide-react';
 import { useItinerary } from '../context/ItineraryContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function ItineraryPlanner() {
+  const { t } = useLanguage();
+  const location = useLocation();
   const [isGenerating, setIsGenerating] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [generatedItinerary, setGeneratedItinerary] = useState<any>(null);
@@ -16,6 +20,21 @@ export default function ItineraryPlanner() {
   });
   const [newPlace, setNewPlace] = useState('');
   const { desiredPlaces, addDesiredPlace, removeDesiredPlace } = useItinerary();
+
+  // Auto-populate from QuickSearchBar data
+  useEffect(() => {
+    if (location.state) {
+      const { tripType, duration } = location.state;
+      setFormData(prev => ({
+        ...prev,
+        duration: duration || '',
+        groupType: tripType || '',
+      }));
+      
+      // If we have data from quick search, scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [location.state]);
 
   // Debug logging
   console.log('ItineraryPlanner: Component rendered');
@@ -70,7 +89,7 @@ export default function ItineraryPlanner() {
       }
     } catch (error) {
       console.error('❌ Error generating itinerary:', error);
-      alert(`Failed to generate itinerary: ${error.message}`);
+      alert(`Failed to generate itinerary: ${error instanceof Error ? error.message : 'Unknown error occurred'}`);
     } finally {
       setIsGenerating(false);
     }
@@ -142,9 +161,9 @@ export default function ItineraryPlanner() {
     <div className="pt-20 min-h-screen bg-stone-50 dark:bg-black transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 animate-fadeInUp">AI-Powered Itinerary Planner</h1>
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 animate-fadeInUp">{t('itinerary.title')}</h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto animate-fadeInUp">
-            Let our AI create a personalized travel experience just for you
+            {t('itinerary.subtitle')}
           </p>
         </div>
 
@@ -153,19 +172,19 @@ export default function ItineraryPlanner() {
           <div className="bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-lg dark:shadow-black/50 border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-500 animate-fadeInUp">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center space-x-2">
               <Sparkles className="w-6 h-6 text-green-600" />
-              <span>Plan Your Journey</span>
+              <span>{t('itinerary.planJourney')}</span>
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
-                  Starting City
+                  {t('itinerary.startingCity')}
                 </label>
                 <input
                   type="text"
                   value={formData.startCity}
                   onChange={(e) => setFormData({...formData, startCity: e.target.value})}
-                  placeholder="e.g., Ranchi, Jamshedpur"
+                  placeholder={t('itinerary.startingCityPlaceholder')}
                   className="w-full p-3 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white bg-white dark:bg-gray-800 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 hover:shadow-md"
                 />
               </div>
@@ -173,7 +192,7 @@ export default function ItineraryPlanner() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Travel Dates
+                    {t('itinerary.travelDates')}
                   </label>
                   <input
                     type="date"
@@ -184,25 +203,25 @@ export default function ItineraryPlanner() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Duration
+                    {t('itinerary.duration')}
                   </label>
                   <select
                     value={formData.duration}
                     onChange={(e) => setFormData({...formData, duration: e.target.value})}
                     className="w-full text-gray-900 dark:text-white bg-white dark:bg-gray-800 p-3 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 hover:shadow-md"
                   >
-                    <option value="">Select duration</option>
-                    <option value="1">1 Day</option>
-                    <option value="2-3">2-3 Days</option>
-                    <option value="4-5">4-5 Days</option>
-                    <option value="6-7">6-7 Days</option>
+                    <option value="">{t('itinerary.selectDuration')}</option>
+                    <option value="1">{t('itinerary.1day')}</option>
+                    <option value="2-3">{t('itinerary.2to3days')}</option>
+                    <option value="4-5">{t('itinerary.4to5days')}</option>
+                    <option value="6-7">{t('itinerary.6to7days')}</option>
                   </select>
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                  Your Interests
+                  {t('itinerary.interests')}
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {interests.map((interest) => (
@@ -227,13 +246,13 @@ export default function ItineraryPlanner() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                  Desired Places to Visit <span className="text-gray-500 dark:text-gray-400 text-xs">(Optional)</span>
+                  {t('itinerary.desiredPlaces')} <span className="text-gray-500 dark:text-gray-400 text-xs">{t('itinerary.optional')}</span>
                 </label>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                  Know specific places you want to visit? Add them here for a more personalized itinerary.
+                  {t('itinerary.desiredPlacesDesc')}
                 </p>
                 <div className="text-xs text-gray-500 dark:text-gray-400 mb-3">
-                  💡 Popular places in Jharkhand: Hundru Falls, Netarhat, Betla National Park, Ranchi Zoo, Dassam Falls, Patratu Valley
+                  {t('itinerary.popularPlaces')}
                 </div>
                 <div className="flex items-center space-x-2 mb-3">
                   <input
@@ -241,7 +260,7 @@ export default function ItineraryPlanner() {
                     value={newPlace}
                     onChange={(e) => setNewPlace(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder="Add a desired place (e.g., Hundru Falls, Ranchi Zoo)"
+                    placeholder={t('itinerary.addPlace')}
                     className="flex-grow text-gray-900 dark:text-white bg-white dark:bg-gray-800 p-3 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 hover:shadow-md"
                   />
                   <button
@@ -272,18 +291,18 @@ export default function ItineraryPlanner() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Group Type
+                  {t('itinerary.groupType')}
                 </label>
                 <select
                   value={formData.groupType}
                   onChange={(e) => setFormData({...formData, groupType: e.target.value})}
                   className="w-full p-3 border text-gray-900 dark:text-white bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 hover:shadow-md"
                 >
-                  <option value="">Select group type</option>
-                  <option value="solo">Solo Travel</option>
-                  <option value="couple">Couple</option>
-                  <option value="family">Family with Kids</option>
-                  <option value="friends">Friends Group</option>
+                  <option value="">{t('itinerary.selectGroupType')}</option>
+                  <option value="solo">{t('itinerary.solo')}</option>
+                  <option value="couple">{t('itinerary.couple')}</option>
+                  <option value="family">{t('itinerary.family')}</option>
+                  <option value="friends">{t('itinerary.friends')}</option>
                 </select>
               </div>
 
@@ -295,12 +314,12 @@ export default function ItineraryPlanner() {
                 {isGenerating ? (
                   <>
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                    <span>Generating Your Perfect Trip...</span>
+                    <span>{t('itinerary.generating')}</span>
                   </>
                 ) : (
                   <>
                     <Sparkles className="w-5 h-5" />
-                    <span>Generate Plan</span>
+                    <span>{t('itinerary.generatePlan')}</span>
                   </>
                 )}
               </button>
@@ -313,17 +332,17 @@ export default function ItineraryPlanner() {
               <div className="flex items-center justify-center h-full">
                 <div className="text-center text-gray-500 dark:text-gray-400">
                   <Sparkles className="w-16 h-16 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
-                  <h3 className="text-xl font-medium mb-2 text-gray-700 dark:text-gray-300">Your Itinerary Will Appear Here</h3>
-                  <p>Fill out the form and click "Generate Plan" to see your personalized journey</p>
+                  <h3 className="text-xl font-medium mb-2 text-gray-700 dark:text-gray-300">{t('itinerary.willAppear')}</h3>
+                  <p>{t('itinerary.fillForm')}</p>
                 </div>
               </div>
             ) : (
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Your Jharkhand Journey</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t('itinerary.yourJourney')}</h2>
                   <button className="flex items-center space-x-2 px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-xl font-medium transition-all duration-200 hover:scale-105">
                     <Download className="w-4 h-4" />
-                    <span>Download PDF</span>
+                    <span>{t('itinerary.downloadPDF')}</span>
                   </button>
                 </div>
 
@@ -334,7 +353,7 @@ export default function ItineraryPlanner() {
                       <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-6 border border-blue-100 dark:border-blue-800 mb-6">
                         <h3 className="text-lg font-bold text-blue-900 dark:text-blue-300 mb-3 flex items-center space-x-2">
                           <Sparkles className="w-5 h-5" />
-                          <span>AI-Generated Itinerary</span>
+                          <span>{t('itinerary.aiGenerated')}</span>
                         </h3>
                         <div className="prose prose-sm max-w-none">
                           <pre className="whitespace-pre-wrap text-sm text-gray-700 dark:text-gray-300 font-sans">
@@ -356,7 +375,7 @@ export default function ItineraryPlanner() {
                                 />
                               </div>
                               <div>
-                                <h3 className="text-lg font-bold text-gray-900 dark:text-white">Day {day.day}</h3>
+                                <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t('itinerary.day')} {day.day}</h3>
                                 <p className="text-green-600 dark:text-green-400 font-medium">{day.location}</p>
                               </div>
                             </div>
@@ -392,7 +411,7 @@ export default function ItineraryPlanner() {
                           />
                         </div>
                         <div>
-                          <h3 className="text-lg font-bold text-gray-900 dark:text-white">Day {day.day}</h3>
+                          <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t('itinerary.day')} {day.day}</h3>
                           <p className="text-green-600 dark:text-green-400 font-medium">{day.location}</p>
                         </div>
                       </div>
@@ -409,7 +428,7 @@ export default function ItineraryPlanner() {
 
                       <div className="bg-white/70 dark:bg-gray-800/70 rounded-xl p-4 border-l-4 border-green-600 dark:border-green-400">
                         <p className="text-sm text-gray-700 dark:text-gray-300 italic">
-                          <strong>Why we recommended this:</strong> {day.recommendation}
+                          <strong>{t('itinerary.whyRecommended')}</strong> {day.recommendation}
                         </p>
                       </div>
                     </div>

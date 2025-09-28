@@ -1,8 +1,11 @@
-import React from 'react';
+
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function HeroSection() {
+  const { t } = useLanguage();
+  
   return (
     <section className="dark:bg-neutral-800 relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background Video */}
@@ -21,22 +24,19 @@ export default function HeroSection() {
       {/* Content */}
       <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto animate-fadeInUp">
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-          Discover Jharkhand:
-          <span className="block text-green-400">Nature, Culture & Stories</span>
-          <span className="block text-lg md:text-2xl font-normal mt-2 text-gray-200">
-            Personalized for You
-          </span>
+          {t('home.welcome')}:
+          <span className="block text-green-400">{t('home.subtitle')}</span>
         </h1>
         
         <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto">
-          Experience the untouched beauty and rich tribal heritage of Jharkhand through AI-powered personalized itineraries
+          {t('home.description')}
         </p>
         
         <Link
           to="/itinerary"
           className="inline-flex items-center space-x-3 bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl group"
         >
-          <span>Plan My Trip</span>
+          <span>{t('home.planTrip')}</span>
           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
         </Link>
       </div>

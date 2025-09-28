@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { BarChart3, MapPin, TrendingUp, CheckCircle, XCircle, User, Calendar, PhoneCall, AlertTriangle, Heart, Edit3, Navigation, Star, BadgeCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const userProfile = {
     name: 'Rahul Sharma',
@@ -83,8 +85,8 @@ export default function Dashboard() {
     <div className="pt-20 min-h-screen bg-stone-50 dark:bg-black transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 animate-fadeInUp">User Dashboard</h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto animate-fadeInUp">Your profile, plans, safety and community tools</p>
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 animate-fadeInUp">{t('dashboard.title')}</h1>
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto animate-fadeInUp">{t('dashboard.subtitle')}</p>
         </div>
 
         {/* Profile and Quick Actions */}
@@ -103,7 +105,7 @@ export default function Dashboard() {
                     <XCircle className="w-5 h-5 text-orange-500" />
                   )}
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-300">{userProfile.verified ? 'Verified' : 'Pending Verification'}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">{userProfile.verified ? t('destDetail.verified') : t('destDetail.pending')}</div>
               </div>
             </div>
 
@@ -111,7 +113,7 @@ export default function Dashboard() {
               <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300"><User className="w-4 h-4" /><span>{userProfile.email}</span></div>
               <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300"><PhoneCall className="w-4 h-4" /><span>{userProfile.phone}</span></div>
               <div className="text-gray-700 dark:text-gray-300">
-                <span className="font-medium">Preferences: </span>
+                <span className="font-medium">{t('dashboard.preferences')}: </span>
                 <span>{userProfile.preferences.join(', ')}</span>
               </div>
             </div>
@@ -119,11 +121,11 @@ export default function Dashboard() {
             <div className="mt-6 flex space-x-3">
               <button onClick={handleEditProfile} className="flex items-center space-x-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-white rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg">
                 <Edit3 className="w-4 h-4" />
-                <span>Edit Profile</span>
+                <span>{t('common.edit')} {t('dashboard.profile')}</span>
               </button>
               <button onClick={handleStartPlanning} className="flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg">
                 <Navigation className="w-4 h-4" />
-                <span>Start Planning a Trip</span>
+                <span>{t('dashboard.startPlanning')}</span>
               </button>
             </div>
           </div>
@@ -131,16 +133,16 @@ export default function Dashboard() {
           <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg dark:shadow-black/50 border border-gray-100 dark:border-gray-800 lg:col-span-2 hover:shadow-xl transition-all duration-500 animate-fadeInUp" style={{ animationDelay: '200ms' }}>
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center space-x-2">
               <Heart className="w-5 h-5 text-pink-500" />
-              <span>Saved Itineraries / Wishlist</span>
+              <span>{t('dashboard.itinerariesWishlist')}</span>
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {savedItineraries.map((it) => (
                 <div key={it.id} className="border border-gray-200 dark:border-gray-700 rounded-xl p-4 flex items-center justify-between hover:shadow-md transition-all duration-300 hover:scale-105">
                   <div>
                     <div className="font-semibold text-gray-900 dark:text-white">{it.title}</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-300">{it.days} days</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-300">{it.days} {t('common.days')}</div>
                   </div>
-                  <button className="text-green-600 dark:text-green-400 font-medium hover:underline transition-colors duration-300" onClick={handleStartPlanning}>Open</button>
+                  <button className="text-green-600 dark:text-green-400 font-medium hover:underline transition-colors duration-300" onClick={handleStartPlanning}>{t('common.open')}</button>
                 </div>
               ))}
             </div>
@@ -154,24 +156,24 @@ export default function Dashboard() {
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg dark:shadow-black/50 border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-500 animate-fadeInUp" style={{ animationDelay: '400ms' }}>
               <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center space-x-2">
                 <BarChart3 className="w-5 h-5 text-green-600" />
-                <span>Platform Analytics</span>
+                <span>{t('dashboard.platformAnalytics')}</span>
               </h2>
               
               <div className="space-y-4">
                 <div className="flex justify-between items-center hover:bg-gray-50 dark:hover:bg-gray-800 -mx-2 px-2 py-2 rounded-lg transition-all duration-300">
-                  <span className="text-gray-600 dark:text-gray-300">Total Itineraries</span>
+                  <span className="text-gray-600 dark:text-gray-300">{t('dashboard.totalItineraries')}</span>
                   <span className="text-2xl font-bold text-green-600">{analyticsData.totalItineraries}</span>
                 </div>
                 <div className="flex justify-between items-center hover:bg-gray-50 dark:hover:bg-gray-800 -mx-2 px-2 py-2 rounded-lg transition-all duration-300">
-                  <span className="text-gray-600 dark:text-gray-300">Active Guides</span>
+                  <span className="text-gray-600 dark:text-gray-300">{t('dashboard.activeGuides')}</span>
                   <span className="text-2xl font-bold text-orange-600">{analyticsData.activeGuides}</span>
                 </div>
                 <div className="flex justify-between items-center hover:bg-gray-50 dark:hover:bg-gray-800 -mx-2 px-2 py-2 rounded-lg transition-all duration-300">
-                  <span className="text-gray-600 dark:text-gray-300">Verified Artisans</span>
+                  <span className="text-gray-600 dark:text-gray-300">{t('dashboard.verifiedArtisans')}</span>
                   <span className="text-2xl font-bold text-amber-600">{analyticsData.verifiedArtisans}</span>
                 </div>
                 <div className="flex justify-between items-center hover:bg-gray-50 dark:hover:bg-gray-800 -mx-2 px-2 py-2 rounded-lg transition-all duration-300">
-                  <span className="text-gray-600 dark:text-gray-300">Satisfaction Rate</span>
+                  <span className="text-gray-600 dark:text-gray-300">{t('dashboard.satisfactionRate')}</span>
                   <span className="text-2xl font-bold text-blue-600">{analyticsData.satisfactionRate}%</span>
                 </div>
               </div>
@@ -181,7 +183,7 @@ export default function Dashboard() {
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg dark:shadow-black/50 border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-500 animate-fadeInUp" style={{ animationDelay: '500ms' }}>
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center space-x-2">
                 <TrendingUp className="w-5 h-5 text-green-600" />
-                <span>Top Destinations</span>
+                <span>{t('dashboard.topDestinations')}</span>
               </h3>
               
               <div className="space-y-3">
@@ -206,7 +208,7 @@ export default function Dashboard() {
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg dark:shadow-black/50 border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-500 animate-fadeInUp" style={{ animationDelay: '600ms' }}>
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center space-x-2">
                 <Calendar className="w-5 h-5 text-amber-600" />
-                <span>Cultural Events Calendar</span>
+                <span>{t('dashboard.culturalEvents')}</span>
               </h3>
               <div className="space-y-3">
                 {culturalEvents.map((ev) => (
@@ -215,7 +217,7 @@ export default function Dashboard() {
                       <div className="font-medium text-gray-900 dark:text-white">{ev.name}</div>
                       <div className="text-xs text-gray-600 dark:text-gray-400">{ev.date} • {ev.location}</div>
                     </div>
-                    <button className="text-green-600 dark:text-green-400 text-sm font-medium hover:underline transition-colors duration-300" onClick={handleStartPlanning}>Add</button>
+                    <button className="text-green-600 dark:text-green-400 text-sm font-medium hover:underline transition-colors duration-300" onClick={handleStartPlanning}>{t('common.add')}</button>
                   </div>
                 ))}
               </div>
@@ -225,13 +227,13 @@ export default function Dashboard() {
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg dark:shadow-black/50 border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-500 animate-fadeInUp" style={{ animationDelay: '700ms' }}>
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center space-x-2">
                 <AlertTriangle className="w-5 h-5 text-red-500" />
-                <span>Safety Guidelines (Jharkhand)</span>
+                <span>{t('dashboard.safetyGuidelines')}</span>
               </h3>
               <ul className="list-disc pl-5 text-sm text-gray-700 dark:text-gray-300 space-y-2">
-                <li>Respect local customs and seek permission before photographs.</li>
-                <li>Travel with registered guides in remote forest areas.</li>
-                <li>Keep emergency numbers handy and share itinerary with family.</li>
-                <li>Carry cash for rural regions; connectivity may be limited.</li>
+                <li>{t('dashboard.safetyTip1')}</li>
+                <li>{t('dashboard.safetyTip2')}</li>
+                <li>{t('dashboard.safetyTip3')}</li>
+                <li>{t('dashboard.safetyTip4')}</li>
               </ul>
             </div>
 
@@ -239,12 +241,12 @@ export default function Dashboard() {
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg dark:shadow-black/50 border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-500 animate-fadeInUp" style={{ animationDelay: '800ms' }}>
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center space-x-2">
                 <PhoneCall className="w-5 h-5 text-blue-600" />
-                <span>Emergency Contacts</span>
+                <span>{t('dashboard.emergencyContacts')}</span>
               </h3>
               <div className="grid grid-cols-1 gap-3">
-                <a href="tel:112" className="px-4 py-3 rounded-xl bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-medium hover:bg-blue-100 dark:hover:bg-blue-800/50 transition-all duration-300">Police: 112</a>
-                <a href="tel:108" className="px-4 py-3 rounded-xl bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 font-medium hover:bg-green-100 dark:hover:bg-green-800/50 transition-all duration-300">Ambulance: 108</a>
-                <a href="tel:1091" className="px-4 py-3 rounded-xl bg-pink-50 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 font-medium hover:bg-pink-100 dark:hover:bg-pink-800/50 transition-all duration-300">Women Helpline: 1091</a>
+                <a href="tel:112" className="px-4 py-3 rounded-xl bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-medium hover:bg-blue-100 dark:hover:bg-blue-800/50 transition-all duration-300">{t('dashboard.police')}: 112</a>
+                <a href="tel:108" className="px-4 py-3 rounded-xl bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 font-medium hover:bg-green-100 dark:hover:bg-green-800/50 transition-all duration-300">{t('dashboard.ambulance')}: 108</a>
+                <a href="tel:1091" className="px-4 py-3 rounded-xl bg-pink-50 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 font-medium hover:bg-pink-100 dark:hover:bg-pink-800/50 transition-all duration-300">{t('dashboard.womenHelpline')}: 1091</a>
               </div>
             </div>
           </div>
@@ -254,7 +256,7 @@ export default function Dashboard() {
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg dark:shadow-black/50 border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-500 animate-fadeInUp" style={{ animationDelay: '700ms' }}>
               <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center space-x-2">
                 <Star className="w-5 h-5 text-yellow-500" />
-                <span>Rate Your Guides, Homestays, and Artisans</span>
+                <span>{t('dashboard.rateServices')}</span>
               </h2>
 
               <div className="space-y-6">
@@ -299,7 +301,7 @@ export default function Dashboard() {
                               className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105 ${r.honest ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'}`}
                               onClick={() => updateRating(item.id, { honest: !r.honest })}
                             >
-                              {r.honest ? 'Marked Honest ✅' : 'Mark as Honest'}
+                              {r.honest ? t('dashboard.markedHonest') : t('dashboard.markHonest')}
                             </button>
 
                             <button
@@ -307,7 +309,7 @@ export default function Dashboard() {
                               onClick={() => updateRating(item.id, { badge: !r.badge })}
                             >
                               <BadgeCheck className="w-4 h-4" />
-                              <span>{r.badge ? 'Badge Granted' : 'Give Community Badge'}</span>
+                              <span>{r.badge ? t('dashboard.badgeGranted') : t('dashboard.giveBadge')}</span>
                             </button>
                         </div>
                         
@@ -316,7 +318,7 @@ export default function Dashboard() {
                             <textarea
                               value={r.comment}
                               onChange={(e) => updateRating(item.id, { comment: e.target.value })}
-                              placeholder="Share your experience (optional)"
+                              placeholder={t('dashboard.shareExperience')}
                               className="w-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                               rows={2}
                             />
@@ -328,7 +330,7 @@ export default function Dashboard() {
                               className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-xl font-medium"
                               onClick={() => alert('Thanks for your feedback!')}
                             >
-                              Submit Rating
+                              {t('dashboard.submitRating')}
                             </button>
                           </div>
                         </div>

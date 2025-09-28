@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -10,11 +10,13 @@ import Chatbot from './pages/Chatbot';
 import Marketplace from './pages/Marketplace';
 import Dashboard from './pages/Dashboard';
 import { ItineraryProvider } from './context/ItineraryContext';
+import { LanguageProvider } from './context/LanguageContext';
 
 function App() {
   return (
-    <ItineraryProvider>
-      <Router>
+    <LanguageProvider>
+      <ItineraryProvider>
+        <Router>
         <div className="min-h-screen bg-neutral-900 text-neutral-100">
           <Header />
           <main>
@@ -31,7 +33,8 @@ function App() {
           <Footer />
         </div>
       </Router>
-    </ItineraryProvider>
+      </ItineraryProvider>
+    </LanguageProvider>
   );
 }
 

@@ -1,15 +1,18 @@
 import { useState } from 'react';
 import { ShoppingBag, Star, Heart, MapPin, Shield } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Marketplace() {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const { t } = useLanguage();
 
   const categories = [
-    { id: 'all', name: 'All Items', count: 28 },
-    { id: 'handicrafts', name: 'Handicrafts', count: 12 },
-    { id: 'homestays', name: 'Homestays', count: 8 },
-    { id: 'guides', name: 'Guides', count: 6 },
-    { id: 'events', name: 'Cultural Events', count: 2 }
+    { id: 'all', name: t('marketplace.all'), count: 28 },
+    { id: 'handicrafts', name: t('marketplace.handicrafts'), count: 12 },
+    { id: 'textiles', name: t('marketplace.textiles'), count: 8 },
+    { id: 'jewelry', name: t('marketplace.jewelry'), count: 6 },
+    { id: 'pottery', name: t('marketplace.pottery'), count: 4 },
+    { id: 'food', name: t('marketplace.food'), count: 2 }
   ];
 
   const items = [
@@ -101,9 +104,9 @@ export default function Marketplace() {
     <div className="pt-20 min-h-screen bg-stone-50 dark:bg-black transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 animate-fadeInUp">Tribal Marketplace</h1>
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 animate-fadeInUp">{t('marketplace.title')}</h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto animate-fadeInUp">
-            Support local artisans and experience authentic Jharkhand culture
+            {t('marketplace.subtitle')}
           </p>
         </div>
 
@@ -178,7 +181,7 @@ export default function Marketplace() {
                   {item.verified && (
                     <>
                       <Shield className="w-3 h-3 text-green-600" />
-                      <span className="text-green-600">Verified</span>
+                      <span className="text-green-600">{t('marketplace.verified')}</span>
                     </>
                   )}
                 </div>
@@ -189,7 +192,7 @@ export default function Marketplace() {
                   </div>
                   <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center space-x-2 group-hover:animate-pulse">
                     <ShoppingBag className="w-4 h-4" />
-                    <span>Reserve & Collect</span>
+                    <span>{t('marketplace.buyNow')}</span>
                   </button>
                 </div>
               </div>
